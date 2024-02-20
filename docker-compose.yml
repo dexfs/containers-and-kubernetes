@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    env_file:
+      - api.env
     volumes:
       - .:/app-config
     ports:

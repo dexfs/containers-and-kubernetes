@@ -5,28 +5,27 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/redis/go-redis/v9"
-	"github.com/spf13/viper"
 )
 
 var ctx = context.Background()
 
-func init() {
-	viper.SetDefault("redis.host", "localhost")
-	viper.SetDefault("redis.port", "6773")
-	viper.SetDefault("redis.password", "")
-	viper.SetDefault("redis.db", 0)
+// func init() {
+// 	viper.SetDefault("redis.host", "localhost")
+// 	viper.SetDefault("redis.port", "6773")
+// 	viper.SetDefault("redis.password", "")
+// 	viper.SetDefault("redis.db", 0)
 
-	viper.SetConfigName("config")
-	viper.SetConfigType("toml")
-	viper.AddConfigPath("/app-config")
-	err := viper.ReadInConfig()
-	if err != nil {
-		panic(fmt.Errorf("fatal error config file: %w", err))
-	}
-
-}
+// 	viper.SetConfigName("config")
+// 	viper.SetConfigType("toml")
+// 	viper.AddConfigPath("/app-config")
+// 	err := viper.ReadInConfig()
+// 	if err != nil {
+// 		panic(fmt.Errorf("fatal error config file: %w", err))
+// 	}
+// }
 
 type Server struct {
 	redis *redis.Client
@@ -56,9 +55,9 @@ func (s *Server) Run() {
 
 func main() {
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     fmt.Sprintf("%s:%s", viper.GetString("redis.host"), viper.GetString("redis.port")),
-		Password: viper.GetString("redis.password"), // no password set
-		DB:       viper.GetInt("redis.db"),          // use default DB
+		Addr:     fmt.Sprintf("%s:%s", os.Getenv("REDIS_HOST"), os.Getenv("REDIS_PORT")),
+		Password: os.Getenv("REDIS_PASSWORD"), // no password set
+		DB:       0,                           // use default DB
 	})
 
 	s := Server{rdb}
