@@ -50,7 +50,7 @@ func (s *Server) Run() {
 		}
 	})
 
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("SERVER_PORT"), nil))
 }
 
 func main() {
