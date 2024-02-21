@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+  namespace: aprenda-golang
+spec:
+  replicas: 1
+  serviceName: redis
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:latest
+          command:
+             - "redis-server"
+          args:
+            - "--requirepass"
+            - "$(PASS)"
+            - "--appendonly"
+            - "yes"
+          env:
+            - name: PASS
+              valueFrom:
+                secretKeyRef:
+                  name: redis
+                  key: REDIS_PASS
+          ports:
+            - containerPort: 6379
