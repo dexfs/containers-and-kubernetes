@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.redis.name }}
+  namespace: {{ .Values.common.namespace }}
+spec:
+  replicas: {{ .Values.redis.replicas }}
+  serviceName: {{ .Values.redis.name }}
+  selector:
+    matchLabels:
+      app: {{ .Values.redis.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.redis.name }}
+    spec:
+      containers:
+        - name: {{ .Values.redis.name }}
+          image: redis:{{ .Values.redis.image_version }}
+          command:
+             - "redis-server"
+          args:
+            - "--requirepass"
+            - "$(PASS)"
+            - "--appendonly"
+            - "yes"
+          env:
+            - name: PASS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.redis.name }}-secret
+                  key: REDIS_PASSWORD
+          ports:
+            - containerPort: {{ .Values.redis.port }}
