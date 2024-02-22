@@ -10,5 +10,5 @@ spec:
   ports: 
   - name: api
     protocol: TCP
-    port: 3001
+    port: 80
     targetPort: 8000

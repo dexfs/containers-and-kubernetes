@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: dexfs/my-api:latest
+          image: dexfs/my-api:v1.1.0
           ports:
             - containerPort: 8000
           envFrom:
