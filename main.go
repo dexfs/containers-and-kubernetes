@@ -35,6 +35,7 @@ func (s *Server) Run() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodPost:
+			log.Printf(http.MethodPost + " was requested with " + r.URL.Query().Get("name"))
 			err := s.redis.Set(ctx, "name", r.URL.Query().Get("name"), 0).Err()
 			if err != nil {
 				log.Println("ERROR: ", err)
@@ -45,11 +46,11 @@ func (s *Server) Run() {
 			if err != nil {
 				log.Println("ERROR: ", err)
 			}
-
+			log.Printf(http.MethodGet + " was requested and return " + name)
 			w.Write([]byte(name))
 		}
 	})
-
+	log.Printf("Listening on" + os.Getenv("SERVER_PORT"))
 	log.Fatal(http.ListenAndServe(":"+os.Getenv("SERVER_PORT"), nil))
 }
 
