@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ .Values.redis.name }}
-  namespace: {{ .Values.common.namespace }}
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: {{ .Values.redis.replicas }}
   serviceName: {{ .Values.redis.name }}

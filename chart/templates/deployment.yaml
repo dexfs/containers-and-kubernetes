@@ -1,34 +1,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.common.app }}
-  namespace: {{ .Values.common.namespace }}
+  name: {{ .Values.api.app }}
+  namespace: {{ .Values.namespace }}
   labels:
-    app: {{ .Values.common.app }}
+    app: {{ .Values.api.app }}
 spec:
-  replicas: {{ .Values.common.replicas }}
+  replicas: {{ .Values.api.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.common.app }}
+      app: {{ .Values.api.app }}
   template:
     metadata:
       labels:
-        app: {{ .Values.common.app }}
+        app: {{ .Values.api.app }}
     spec:
       containers:
-        - name: {{ .Values.common.app }}
-          image: dexfs/my-api:{{ .Values.common.image_version }}
+        - name: {{ .Values.api.app }}
+          image: dexfs/my-api:{{ .Values.api.image_version }}
           ports:
-            - containerPort: {{  .Values.common.port }}
+            - containerPort: {{  .Values.api.port }}
           envFrom:
             - configMapRef:
-                name: {{ .Values.common.app}}-cm
+                name: {{ .Values.api.app}}-cm
             - secretRef:
                 name: {{ .Values.redis.name }}
           resources:
             requests:
-              cpu: {{ .Values.resources.requests.cpu }}
-              memory: {{ .Values.resources.requests.memory }}
+              cpu: {{ .Values.api.resources.requests.cpu }}
+              memory: {{ .Values.api.resources.requests.memory }}
             limits:
-              cpu: {{ .Values.resources.limits.cpu }}
-              memory: {{ .Values.resources.limits.memory }}
+              cpu: {{ .Values.api.resources.limits.cpu }}
+              memory: {{ .Values.api.resources.limits.memory }}
