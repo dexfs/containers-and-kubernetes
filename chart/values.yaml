@@ -1,7 +1,6 @@
 namespace: aprenda-golang
 
-api:
-  app: api
+api:  
   port: 8000  
   image_version: v1.1.0
   replicas: 3
@@ -26,7 +25,6 @@ services:
     targetPort: 6379
 
 redis:
-  name: redis
   image_version: latest
   host: redis.aprenda-golang.svc.cluster.local
   port: 6379

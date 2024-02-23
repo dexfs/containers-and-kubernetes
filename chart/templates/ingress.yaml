@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata: 
-  name: ing-{{ .Values.api.app }}
+  name: {{ .Release.Name}}-ing
   namespace: {{ .Values.namespace }}
 spec:
   rules:
@@ -12,7 +12,7 @@ spec:
           path: /
           backend:
             service:
-              name: {{ .Values.api.svc.name }}
+              name: {{ .Release.Name}}-{{ .Values.api.svc.name }}-svc
               port:
                 number: {{ .Values.api.svc.port }}
               
