@@ -12,7 +12,7 @@ spec:
   template:
     metadata:
       labels:
-        app:{{ .Release.Name}}-redis
+        app: {{ .Release.Name}}-redis
     spec:
       containers:
         - name: redis

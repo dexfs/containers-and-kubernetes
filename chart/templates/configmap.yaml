@@ -4,6 +4,6 @@ metadata:
   name: {{ .Release.Name }}-api-cm
   namespace: {{ .Values.namespace }}
 data:
-  SERVER_PORT: {{ .Values.configmap.server.port }}
-  REDIS_HOST: {{ .Values.redis.host }}
-  REDIS_PORT: {{ .Values.redis.port }}
+  SERVER_PORT: {{ .Values.api.port | quote }}
+  REDIS_HOST: "{{ .Release.Name }}-redis-svc.{{ .Values.namespace }}.svc.cluster.local"
+  REDIS_PORT: {{ .Values.redis.port | quote}}

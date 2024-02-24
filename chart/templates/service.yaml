@@ -1,16 +1,22 @@
-{{- range .Values.services }}
+{{- $services := dict "api" .Values.api "redis" .Values.redis -}}
+{{- range $svc, $values := $services }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name}}-{{ app }}-svc
-  namespace: {{ .Values.namespace }}
+  name: {{ $.Release.Name}}-{{ $svc }}-svc
+  namespace: {{ $.Values.namespace }}
 spec:
   selector:
-    app: {{ .Release.Name}}-{{ app }}
+    app: {{ $.Release.Name}}-{{ $svc }}
   type: ClusterIP
   ports: 
-  - name: {{ app }}
+  - name: {{ $svc }}
     protocol: TCP
-    port: {{ port }}
-    targetPort: {{ targetPort }}
+    {{ if $values.svc}}
+    port: {{ $values.svc.port }}
+    {{ else }}
+    port: {{ $values.port }}
+    {{ end }}
+    targetPort: {{ $values.port }}
+---
 {{ end }}    
